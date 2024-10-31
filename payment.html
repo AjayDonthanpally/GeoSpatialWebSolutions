@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 400px;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .bill-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .total {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .payment-methods {
+            margin-top: 20px;
+        }
+        .payment-methods label {
+            margin-right: 10px;
+        }
+        .payment-details {
+            margin-top: 20px;
+        }
+        .payment-details input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            background: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bill Payment</h1>
+        <div id="bill-list"></div>
+        <div class="total" id="total-amount"></div>
+        
+        <div class="payment-methods">
+            <h2>Select Payment Method</h2>
+            <label><input type="radio" name="payment-method" value="netbanking" onclick="showPaymentDetails()"> Net Banking</label>
+            <label><input type="radio" name="payment-method" value="upi" onclick="showPaymentDetails()"> UPI</label>
+            <label><input type="radio" name="payment-method" value="debitcredit" onclick="showPaymentDetails()"> Debit/Credit Card</label>
+            <label><input type="radio" name="payment-method" value="wallet" onclick="showPaymentDetails()"> Wallet</label>
+        </div>
+
+        <div class="payment-details" id="payment-details"></div>
+
+        <button onclick="submitPayment()">Pay Now</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const isAuthenticated = localStorage.getItem('authenticated');
+            if (!isAuthenticated) {
+                window.location.href = 'signin.html';
+            }
+            
+            const bills = JSON.parse(localStorage.getItem('bills')) || [];
+            const billList = document.getElementById('bill-list');
+            let totalAmount = 0;
+
+            bills.forEach(bill => {
+                const [billName, billAmount] = bill.split('|');
+                totalAmount += Number(billAmount);
+                const billItem = document.createElement('div');
+                billItem.className = 'bill-item';
+                billItem.innerHTML = `<span>${billName}</span><span>₹${billAmount}</span>`;
+                billList.appendChild(billItem);
+            });
+
+            document.getElementById('total-amount').innerText = `Total: ₹${totalAmount}`;
+        });
+
+        function showPaymentDetails() {
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+            const paymentDetails = document.getElementById('payment-details');
+
+            if (paymentMethod === 'upi') {
+                paymentDetails.innerHTML = `
+                    <input type="text" placeholder="Enter UPI ID" required>
+                `;
+            } else if (paymentMethod === 'netbanking') {
+                paymentDetails.innerHTML = `
+                    <select required>
+                        <option value="">Select Bank</option>
+                        <option value="sbi">State Bank of India</option>
+                        <option value="hdfc">HDFC Bank</option>
+                        <option value="icici">ICICI Bank</option>
+                        <!-- Add more banks as needed -->
+                    </select>
+                `;
+            } else if (paymentMethod === 'debitcredit') {
+                paymentDetails.innerHTML = `
+                    <input type="text" placeholder="Card Number" required>
+                    <input type="text" placeholder="Name on Card" required>
+                    <input type="text" placeholder="Expiry Date (MM/YY)" required>
+                    <input type="text" placeholder="CVV" required>
+                `;
+            } else if (paymentMethod === 'wallet') {
+                paymentDetails.innerHTML = `
+                    <input type="text" placeholder="Wallet ID" required>
+                `;
+            } else {
+                paymentDetails.innerHTML = '';
+            }
+        }
+
+        function submitPayment() {
+            const selectedMethod = document.querySelector('input[name="payment-method"]:checked');
+            if (selectedMethod) {
+                alert(`Payment via ${selectedMethod.value} has been submitted.`);
+                // Here you can add your payment processing logic
+            } else {
+                alert('Please select a payment method.');
+            }
+        }
+    </script>
+</body>
+</html>

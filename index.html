@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geo Spatial Web Solution</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="home-page">
+        <div class="top-bar flex-container" style="background-attachment: fixed;">
+            <h1>GEO SPATIAL WEB SOLUTIONS</h1>
+            <p id="currentDateTime"></p>
+
+        </div>
+        
+        <div class="top-bar flex-container">
+            <!-- Menu Button -->
+            <button class="menu-button" onclick="toggleMenu()">Menu</button>
+            
+            <div class="right-buttons flex-container">
+                <button id="theme-toggle" class="button">🔆</button>
+                <div class="notification">
+                    <img src="https://flyclipart.com/thumb2/bell-icon-png-and-vector-for-free-download-545512.png" alt="Notifications" class="button" onclick="toggleNotifications()">
+                    <span id="notification-badge" class="badge" style="display: none;">!</span> <!-- Notification Badge -->
+                </div>
+                <button id="signin-button" class="button" onclick="location.href='signin.html'">Sign In</button>
+                <button id="signup-button" class="button" onclick="location.href='signup.html'">Sign Up</button>
+                <button id="profile-button" class="button" style="display: none;" onclick="location.href='profile.html'">Profile</button> <!-- Profile button -->
+            </div>
+        </div>
+        
+        <!-- Collapsible Menu -->
+        <div id="side-menu" class="side-menu" style="display: none;">
+            <button class="button" onclick="location.href='LatestUpdates.html'">Latest Updates </button>
+            <button class="button" onclick="location.href='lastPaidDates.html'">Last Paid Dates</button>
+            <button class="button" onclick="location.href='payment.html'">Bill Payment</button>
+            <button class="button" onclick="location.href='calculator.html'">Calculator</button>
+            <button class="button" onclick="location.href='ContactUs.html'">Contact Us</button>
+        </div>
+
+        <!-- Notifications Dropdown -->
+        <div id="notifications-dropdown" class="notifications-dropdown" style="display: none;">
+            <p>No new notifications.</p> <!-- Placeholder for notifications -->
+        </div>
+    </div>
+    <div class="footer">
+        <div class="flash-news">Welcome to Geo Spatial WebSolution!!Welcome user approaching the Geo Spatial Web Solution Platform for Payments.!!!All GHMC bills can pay heres!!For any query please contact +91 9876542310!!Thank you  for visiting.</div>
+    </div>
+    <script src='script.js'></script> <!-- Include the JS file -->
+</body>
+</html>
